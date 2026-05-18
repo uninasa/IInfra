@@ -1,0 +1,31 @@
+spring:
+  # 数据源配置 - 生产环境
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://your-prod-host:3306/iinfra?useUnicode=true&characterEncoding=utf-8&useSSL=true&serverTimezone=Asia/Shanghai
+    username: ${DB_USERNAME:iinfra}
+    password: ${DB_PASSWORD:}
+    type: com.alibaba.druid.pool.DruidDataSource
+    druid:
+      initial-size: 10
+      min-idle: 10
+      max-active: 50
+      max-wait: 60000
+
+  # Redis 配置 - 生产环境
+  redis:
+    host: ${REDIS_HOST:localhost}
+    port: ${REDIS_PORT:6379}
+    password: ${REDIS_PASSWORD:}
+    database: 0
+
+# MyBatis Plus 配置 - 生产环境关闭SQL日志
+mybatis-plus:
+  configuration:
+    log-impl: org.apache.ibatis.logging.nologging.NoLoggingImpl
+
+# 日志配置
+logging:
+  level:
+    cn.uninasa: info
+    org.springframework: warn

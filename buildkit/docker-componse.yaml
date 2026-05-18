@@ -1,0 +1,76 @@
+version: '3.8'
+
+services:
+  # ---------- Nacos ----------
+  nacos:
+    image: nacos/nacos-server:v2.2.3
+    container_name: nacos2.2.3
+    restart: always
+    ports:
+      - "8848:8848"
+      - "9848-9849:9848-9849"
+    environment:
+      - MODE=standalone
+      - PREFER_HOST_MODE=ip
+      - JVM_XMS=128m
+      - JVM_XMX=128m
+      - JVM_XMN=512m
+      - JVM_MS=128m
+      - JVM_MMS=320m
+      - TIME_ZONE=Asia/Shanghai
+    volumes:
+      - /usr/local/tools/nacos/logs:/home/nacos/logs
+      - /usr/local/tools/nacos/conf:/home/nacos/conf
+      - /usr/local/tools/nacos/data:/home/nacos/data
+
+  # ---------- PostgreSQL ----------
+  postgres:
+    image: postgres:14.8
+    container_name: postgresql14
+    restart: always
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_PASSWORD=123450
+      - PGDATA=/var/lib/postgresql/data
+    volumes:
+      - /usr/local/tools/postgresql/data:/var/lib/postgresql/data
+
+  # ---------- Redis ----------
+  redis:
+    image: redis:7.0.15
+    container_name: redis
+    restart: always
+    ports:
+      - "6379:6379"
+    command: redis-server /etc/redis/redis.conf
+    volumes:
+      - /usr/local/tools/redis/data:/data
+      - /usr/local/tools/redis/conf/redis.conf:/etc/redis/redis.conf
+
+  # ---------- MySQL 8.0 (唯一的MySQL) ----------
+  mysql8:
+    image: mysql:8.0
+    container_name: mysql8
+    restart: always
+    ports:
+      - "3306:3306"
+    environment:
+      - MYSQL_ROOT_PASSWORD=123450
+    volumes:
+      - /usr/local/tools/mysql8/data:/var/lib/mysql
+      - /usr/local/tools/mysql8/logs:/var/log/mysql
+      - /usr/local/tools/mysql8/conf.d:/etc/mysql/conf.d
+
+  # ---------- 你的业务服务（预留位置） ----------
+  # item-service:
+  #   image: your-registry/item-service:latest
+  #   container_name: item-service
+  #   restart: always
+  #   ports:
+  #     - "8080:8080"
+  #   volumes:
+  #     - /data/item/logs:/app/logs
+  #   depends_on:
+  #     - mysql8
+  #     - redis

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
+         http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>iinfra</artifactId>
+        <groupId>cn.uninasa</groupId>
+        <version>1.0.0-SNAPSHOT</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>iinfra-business</artifactId>
+    <packaging>pom</packaging>
+    <description>业务模块层 - 各业务域实现</description>
+
+    <modules>
+        <module>iinfra-script</module>
+        <module>iinfra-admin</module>
+    </modules>
+
+    <dependencies>
+        <!-- 引入系统模块 -->
+        <dependency>
+            <groupId>cn.uninasa</groupId>
+            <artifactId>iinfra-system</artifactId>
+        </dependency>
+
+        <!-- 引入鉴权模块 -->
+        <dependency>
+            <groupId>cn.uninasa</groupId>
+            <artifactId>iinfra-auth</artifactId>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <!-- 跳过打包，作为依赖被引用 -->
+                    <skip>true</skip>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+</project>
