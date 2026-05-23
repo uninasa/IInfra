@@ -43,7 +43,7 @@ services:
     restart: always
     ports:
       - "6379:6379"
-    command: redis-server /etc/redis/redis.conf
+    command: redis-server /etc/redis/redis.conf --requirepass 123450 --rename-command CONFIG ""
     volumes:
       - /usr/local/tools/redis/data:/data
       - /usr/local/tools/redis/conf/redis.conf:/etc/redis/redis.conf
