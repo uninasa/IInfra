@@ -18,10 +18,10 @@ public class ScriptServiceImpl extends ServiceImpl<ScriptMapper, Script> impleme
     public void publish(Long scriptId) {
         Script script = getById(scriptId);
         if (script == null) {
-            throw new BusinessException(ResultCode.SCRIPT_NOT_FOUND);
+            throw new BusinessException(ResultCode.BAD_REQUEST);
         }
         if (script.getStatus() == 1) {
-            throw new BusinessException(ResultCode.SCRIPT_ALREADY_PUBLISHED);
+            throw new BusinessException(ResultCode.BAD_REQUEST);
         }
         script.setStatus(1);
         updateById(script);
@@ -31,7 +31,7 @@ public class ScriptServiceImpl extends ServiceImpl<ScriptMapper, Script> impleme
     public void offline(Long scriptId) {
         Script script = getById(scriptId);
         if (script == null) {
-            throw new BusinessException(ResultCode.SCRIPT_NOT_FOUND);
+            throw new BusinessException(ResultCode.BAD_REQUEST);
         }
         script.setStatus(2);
         updateById(script);

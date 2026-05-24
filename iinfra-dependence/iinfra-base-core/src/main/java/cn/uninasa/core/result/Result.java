@@ -1,63 +1,61 @@
 package cn.uninasa.core.result;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.experimental.Accessors;
 
 import java.io.Serializable;
 
-/**
- * 统一返回结果封装
- */
 @Data
+@AllArgsConstructor
+@Accessors(chain = true)
+@ApiModel(value = "统一返回对象")
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class Result<T> implements Serializable {
 
-    private static final long serialVersionUID = 1L;
+    private static final Long serialVersionUID = 1L;
 
-    /** 状态码 */
+    @ApiModelProperty("是否成功")
+    private boolean success;
+
+    @ApiModelProperty("状态码")
     private Integer code;
 
-    /** 提示信息 */
+    @ApiModelProperty("返回消息")
     private String message;
 
-    /** 返回数据 */
+    @ApiModelProperty("返回数据")
     private T data;
 
-    /** 是否成功 */
-    private Boolean success;
-
-    private Result() {}
+    @ApiModelProperty("时间戳")
+    private Long timestamp;
 
     public static <T> Result<T> ok() {
-        return ok(null);
+        return new Result<>(true, ResultCode.SUCCESS.getCode(), ResultCode.SUCCESS.getMessage(), null, System.currentTimeMillis());
     }
 
     public static <T> Result<T> ok(T data) {
-        Result<T> result = new Result<>();
-        result.setCode(200);
-        result.setMessage("操作成功");
-        result.setData(data);
-        result.setSuccess(true);
-        return result;
+        return new Result<>(true, ResultCode.SUCCESS.getCode(), ResultCode.SUCCESS.getMessage(), data, System.currentTimeMillis());
     }
 
     public static <T> Result<T> ok(String message, T data) {
-        Result<T> result = new Result<>();
-        result.setCode(200);
-        result.setMessage(message);
-        result.setData(data);
-        result.setSuccess(true);
-        return result;
+        return new Result<>(true, ResultCode.SUCCESS.getCode(), message, data, System.currentTimeMillis());
     }
 
-    public static <T> Result<T> fail(String message) {
-        return fail(500, message);
+    public static <T> Result<T> error(String message) {
+        return new Result<>(false, ResultCode.ERROR.getCode(), message, null, System.currentTimeMillis());
     }
 
-    public static <T> Result<T> fail(Integer code, String message) {
-        Result<T> result = new Result<>();
-        result.setCode(code);
-        result.setMessage(message);
-        result.setData(null);
-        result.setSuccess(false);
-        return result;
+    public static <T> Result<T> error(ResultCode resultCode) {
+        return new Result<>(false, resultCode.getCode(), resultCode.getMessage(), null, System.currentTimeMillis());
+    }
+
+    public static <T> Result<T> error(Integer code, String message) {
+        return new Result<>(false, code, message, null, System.currentTimeMillis());
     }
 }

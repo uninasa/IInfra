@@ -25,7 +25,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(BusinessException.class)
     public Result<?> handleBusinessException(BusinessException e) {
         log.warn("业务异常: {}", e.getMessage());
-        return Result.fail(e.getCode(), e.getMessage());
+        return Result.error(e.getCode(), e.getMessage());
     }
 
     /**
@@ -38,7 +38,7 @@ public class GlobalExceptionHandler {
                 .map(FieldError::getDefaultMessage)
                 .collect(Collectors.joining(", "));
         log.warn("参数校验失败: {}", message);
-        return Result.fail(400, message);
+        return Result.error(400, message);
     }
 
     /**
@@ -51,7 +51,7 @@ public class GlobalExceptionHandler {
                 .map(FieldError::getDefaultMessage)
                 .collect(Collectors.joining(", "));
         log.warn("参数绑定失败: {}", message);
-        return Result.fail(400, message);
+        return Result.error(400, message);
     }
 
     /**
@@ -61,6 +61,6 @@ public class GlobalExceptionHandler {
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public Result<?> handleException(Exception e) {
         log.error("系统异常: ", e);
-        return Result.fail("系统内部错误，请联系管理员");
+        return Result.error("系统内部错误，请联系管理员");
     }
 }
