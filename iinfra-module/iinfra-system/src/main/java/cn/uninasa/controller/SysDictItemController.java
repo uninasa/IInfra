@@ -25,7 +25,7 @@ import java.util.List;
  */
 @Api(tags = "字典项表")
 @RestController
-@RequestMapping("sys/dict/item")
+@RequestMapping("/sys/dict/item")
 @Slf4j
 public class SysDictItemController {
     @Resource
@@ -43,6 +43,9 @@ public class SysDictItemController {
         LambdaQueryWrapper<SysDictItem> query = new LambdaQueryWrapper<>();
         if (StrUtil.isNotEmpty(sysDictItem.getDictId())) {
             query.eq(SysDictItem::getDictId, sysDictItem.getDictId());
+        }
+        if (StrUtil.isNotEmpty(sysDictItem.getItemText())) {
+            query.eq(SysDictItem::getItemText, sysDictItem.getItemText());
         }
         query.orderByAsc(SysDictItem::getSortOrder);
         IPage<SysDictItem> pageList = this.sysDictItemService.page(pageRequest.toPage(), query);

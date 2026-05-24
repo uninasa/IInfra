@@ -16,7 +16,7 @@ import java.lang.annotation.*;
 public @interface EnumDict {
     
     /**
-     * TODO 这里为啥要使用类传递，不能用String类型传递类名，或者用其他方式嘛，这样性能会很差吧
+     * 枚举类
      */
     Class<? extends IDictEnum> enumClass();
 }

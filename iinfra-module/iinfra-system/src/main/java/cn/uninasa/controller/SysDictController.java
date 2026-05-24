@@ -154,7 +154,7 @@ public class SysDictController {
      * @return 结果
      */
     @ApiOperation(value = "刷新所有字典缓存", notes = "清理所有字典缓存（包括转译字典和枚举字典），下次查询时会重新加载并缓存3天")
-    @PostMapping(value = "/refreshCache")
+    @GetMapping(value = "/refreshCache")
     public Result<String> refreshCache() {
         sysDictService.refreshCache(null);
         return Result.ok("所有字典缓存已清理！");
